@@ -8,7 +8,7 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link active fs-3" href="#"
+          <a class="nav-link fs-3 active" routerLink="home"
             ><i class="fa-brands fa-twitter me-lg-2"></i>
           </a>
         </div>
@@ -17,7 +17,10 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link active fs-4 d-flex align-items-center" href="#"
+          <a
+            class="nav-link fs-4 d-flex align-items-center"
+            routerLink="home"
+            routerLinkActive="active"
             ><i class="fa-solid fa-house me-lg-2"></i>
             <span
               class="d-none d-sm-none d-md-none d-lg-inline-block d-xl-inline-block d-xxl-inline-block"
@@ -30,7 +33,7 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link active fs-4 d-flex align-items-center" href="#"
+          <a class="nav-link fs-4 d-flex align-items-center" href="#"
             ><i class="fa-solid fa-hashtag me-lg-2"></i>
             <span
               class="d-none d-sm-none d-md-none d-lg-inline-block d-xl-inline-block d-xxl-inline-block"
@@ -43,7 +46,7 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link active fs-4 d-flex align-items-center" href="#"
+          <a class="nav-link fs-4 d-flex align-items-center" href="#"
             ><i class="fa-regular fa-bell me-lg-2"></i>
             <span
               class="d-none d-sm-none d-md-none d-lg-inline-block d-xl-inline-block d-xxl-inline-block"
@@ -56,7 +59,7 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link active fs-4 d-flex align-items-center" href="#"
+          <a class="nav-link fs-4 d-flex align-items-center" href="#"
             ><i class="fa-regular fa-envelope me-lg-2"></i>
             <span
               class="d-none d-sm-none d-md-none d-lg-inline-block d-xl-inline-block d-xxl-inline-block"
@@ -69,7 +72,10 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link active fs-4 d-flex align-items-center" href="#"
+          <a
+            class="nav-link fs-4 d-flex align-items-center"
+            routerLink="profile"
+            routerLinkActive="active"
             ><i class="fa-regular fa-user me-lg-2"></i>
             <span
               class="d-none d-sm-none d-md-none d-lg-inline-block d-xl-inline-block d-xxl-inline-block"
@@ -92,9 +98,14 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link d-flex" href="#">
-            <div class="rounded-circle overflow-hidden me-lg-2">
+          <a class="nav-link d-flex align-items-center" href="#">
+            <!-- <div class="rounded-circle overflow-hidden me-lg-2">
               <img src="../../assets/myImage.png" alt="" />
+            </div> -->
+            <div class="me-lg-2">
+              <app-profile-image
+                [widthAndHeight]="'smallWidth'"
+              ></app-profile-image>
             </div>
             <span
               class="d-none d-sm-none d-md-none d-lg-flex d-xl-flex d-xxl-flex flex-column"

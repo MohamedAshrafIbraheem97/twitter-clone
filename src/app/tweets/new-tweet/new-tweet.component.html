@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row gx-2">
+    <div class="col-1">
+      <app-profile-image [widthAndHeight]="'largerWidth'"></app-profile-image>
+    </div>
+    <div class="col-11">
+      <form [formGroup]="newTweet" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-12">
+            <textarea
+              name="tweetWriting"
+              id=""
+              cols="30"
+              rows="1"
+              class="form-control border-0 py-1"
+              placeholder="What's happening?"
+              (input)="inputChanged()"
+              #newTweetTextarea
+              formControlName="tweet"
+            ></textarea>
+            <hr class="opacity-25 text-secondary" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8"></div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            <div class="d-flex" *ngIf="newTweet.dirty">
+              <p
+                class="m-0 pe-2"
+                [ngClass]="currentProgress < 0 ? 'text-danger' : ''"
+              >
+                {{ currentProgress }}
+              </p>
+              <div class="vertical-line"></div>
+            </div>
+            <button
+              class="btn btn-primary rounded-pill fw-bold ms-2"
+              [disabled]="!newTweet.valid"
+            >
+              Tweet
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
