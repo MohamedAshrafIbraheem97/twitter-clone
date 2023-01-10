@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row gx-2">
+    <div class="col-1">
+      <app-profile-image></app-profile-image>
+    </div>
+    <div class="col-11">
+      <!-- profile details section -->
+      <div class="row">
+        <div class="col-12">
+          <a href="" class="text-black profile-link fw-bold fs-6">Noga</a>
+          <p class="d-inline ms-1 smallerFont text-secondary">
+            @imMohamedAshraf
+          </p>
+          <p class="d-inline mx-1 smallerFont text-secondary">.</p>
+          <a href="" class="text-secondary smallerFont profile-link">15h</a>
+        </div>
+      </div>
+      <!-- tweet content section -->
+      <div class="row">
+        <div class="col-12">
+          <p>
+            I am grateful to anyone who stays with me, when I have absolutely
+            nothing to offer except my company. ❤️
+          </p>
+        </div>
+      </div>
+      <!-- tweet actions section -->
+      <div class="row">
+        <div class="col-12 d-flex flex-row-reverse justify-content-around">
+          <app-icon [iconName]="likeIcon"></app-icon>
+          <app-icon [iconName]="replyIcon"></app-icon>
+          <app-icon [iconName]="retweetIcon"></app-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,6 +14,9 @@ import { ListTweetsComponent } from './tweets/list-tweets/list-tweets.component'
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileImageComponent } from './profile/profile-image/profile-image.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TweetDetailsComponent } from './tweets/list-tweets/tweet-details/tweet-details.component';
+import { TweetComponent } from './tweets/list-tweets/tweet/tweet.component';
+import { IconComponent } from './shared-components/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ListTweetsComponent,
     ProfileComponent,
     ProfileImageComponent,
+    TweetDetailsComponent,
+    TweetComponent,
+    IconComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],

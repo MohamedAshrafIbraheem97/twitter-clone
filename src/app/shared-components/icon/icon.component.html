@@ -1,0 +1,19 @@
+<div
+  class="main d-flex align-items-center"
+  (mouseenter)="onMouseEnter(iconDiv)"
+  (mouseleave)="onMouseLeave(iconDiv)"
+  (click)="onLike(iconDiv)"
+  #iconDiv
+>
+  <div
+    class="d-flex justify-content-center align-items-center rounded-circle width-and-height"
+  >
+    <p
+      class="d-inline-block rounded-circle p-2 m-0"
+      [innerHTML]="iconDetails.icon"
+    ></p>
+  </div>
+  <div *ngIf="numberOfLikes != 0">
+    <span>{{ numberOfLikes }}</span>
+  </div>
+</div>
