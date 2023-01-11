@@ -1,10 +1,12 @@
 import { User } from 'src/app/profile/models/User.model';
 
-export interface Tweet {
-  content: string;
-  creationDate: Date;
-  creator: User;
-  likes?: User[];
-  retweet?: number;
-  replies?: Tweet[];
+export class Tweet {
+  constructor(
+    public content: string,
+    public creationDate: Date,
+    public creator: User,
+    public retweet: number,
+    public isLikedBy?: User[],
+    public replies?: Tweet[]
+  ) {}
 }
