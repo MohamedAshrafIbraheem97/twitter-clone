@@ -4,7 +4,7 @@
       <app-profile-image [widthAndHeight]="'largerWidth'"></app-profile-image>
     </div>
     <div class="col-11">
-      <form [formGroup]="newTweet" (ngSubmit)="onSubmit()">
+      <form [formGroup]="tweetForm" (ngSubmit)="onTweetCreation()">
         <div class="row">
           <div class="col-12">
             <textarea
@@ -24,7 +24,7 @@
         <div class="row">
           <div class="col-8"></div>
           <div class="col-4 d-flex justify-content-end align-items-center">
-            <div class="d-flex" *ngIf="newTweet.dirty">
+            <div class="d-flex" *ngIf="tweetForm.dirty">
               <p
                 class="m-0 pe-2"
                 [ngClass]="currentProgress < 0 ? 'text-danger' : ''"
@@ -35,7 +35,7 @@
             </div>
             <button
               class="btn btn-primary rounded-pill fw-bold ms-2"
-              [disabled]="!newTweet.valid"
+              [disabled]="!tweetForm.valid"
             >
               Tweet
             </button>
