@@ -40,8 +40,6 @@ export class NewTweetComponent {
   });
 
   onTweetCreation() {
-    console.log(this.tweetForm.value);
-
     let tweet = new Tweet(
       this.tweetForm.value['tweet']!,
       new Date(),
@@ -49,10 +47,11 @@ export class NewTweetComponent {
       0
     );
     this.tweetService.createTweet(tweet);
+  }
 
-    console.log(this.tweetService.getTweets());
-
-    // console.log(this.newTweet.value.tweet);
+  inputChanged() {
+    this.calculateProgress();
+    this.increaseTextAreaHeight();
   }
 
   private calculateProgress() {
@@ -64,8 +63,7 @@ export class NewTweetComponent {
     }
   }
 
-  inputChanged() {
-    this.calculateProgress();
+  private increaseTextAreaHeight() {
     let textarea = this.textarea.nativeElement;
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';

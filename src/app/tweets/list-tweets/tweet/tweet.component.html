@@ -7,20 +7,23 @@
       <!-- profile details section -->
       <div class="row">
         <div class="col-12">
-          <a href="" class="text-black profile-link fw-bold fs-6">Noga</a>
+          <a href="" class="text-black profile-link fw-bold fs-6">{{
+            tweet.creator.name
+          }}</a>
           <p class="d-inline ms-1 smallerFont text-secondary">
-            @imMohamedAshraf
+            @{{ tweet.creator.username }}
           </p>
           <p class="d-inline mx-1 smallerFont text-secondary">.</p>
-          <a href="" class="text-secondary smallerFont profile-link">15h</a>
+          <a href="" class="text-secondary smallerFont profile-link">
+            {{ handlingDate() }}
+          </a>
         </div>
       </div>
       <!-- tweet content section -->
       <div class="row">
         <div class="col-12">
           <p>
-            I am grateful to anyone who stays with me, when I have absolutely
-            nothing to offer except my company. ❤️
+            {{ tweet.content }}
           </p>
         </div>
       </div>
