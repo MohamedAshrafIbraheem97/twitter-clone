@@ -1,9 +1,13 @@
 <div class="container">
   <div class="row gx-2">
-    <div class="col-1">
-      <app-profile-image [widthAndHeight]="'largerWidth'"></app-profile-image>
+    <div class="col-2 col-lg-1">
+      <app-profile-image
+        [user]="currentUser"
+        [widthAndHeight]="'largerWidth'"
+      ></app-profile-image>
     </div>
-    <div class="col-11">
+    <!-- writting new tweet  -->
+    <div class="col-10 col-lg-11">
       <form [formGroup]="tweetForm" (ngSubmit)="onTweetCreation()">
         <div class="row">
           <div class="col-12">

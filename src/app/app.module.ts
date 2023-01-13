@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TweetDetailsComponent } from './tweets/list-tweets/tweet-details/tweet-details.component';
 import { TweetComponent } from './tweets/list-tweets/tweet/tweet.component';
 import { IconComponent } from './shared-components/icon/icon.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { IconComponent } from './shared-components/icon/icon.component';
     TweetDetailsComponent,
     TweetComponent,
     IconComponent,
+    NotFoundComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [],

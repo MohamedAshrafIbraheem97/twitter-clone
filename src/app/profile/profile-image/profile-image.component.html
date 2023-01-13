@@ -1,5 +1,5 @@
-<a href="#">
+<a href="#" [routerLink]="['/profile', user.username]">
   <div class="rounded-circle overflow-hidden" [ngClass]="widthAndHeight">
-    <img src="../../assets/myImage.png" class="w-100" alt="" />
+    <img [src]="user.profileImage" class="w-100" alt="profile image" />
   </div>
 </a>
