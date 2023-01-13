@@ -1,1 +1,90 @@
-<p>profile component works!</p>
+<div class="row">
+  <!-- image header and profile image -->
+  <div class="col-12">
+    <div class="image-container position-relative bg-info">
+      <a href="">
+        <img
+          [src]="user.headerImage"
+          alt="profile background"
+          class="background-image"
+      /></a>
+      <div class="ms-2 profile-image-container position-absolute">
+        <div
+          class="profile-image rounded-circle bg-white d-flex justify-content-center align-items-center"
+        >
+          <div class="image">
+            <a href="">
+              <img src="{{ user.profileImage }}" alt="" class="w-100"
+            /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container gy-5">
+    <div class="container">
+      <div class="row justify-content-end">
+        <div class="col-12 d-flex justify-content-end">
+          <button
+            class="btn btn-outline-secondary rounded-pill fw-bold text-black"
+          >
+            Edit Profile
+          </button>
+        </div>
+      </div>
+      <!-- name and user name -->
+      <div class="row">
+        <div class="col-12">
+          <h4 class="fw-bold">{{ user.name }}</h4>
+          <p class="text-muted">@{{ user.username }}</p>
+        </div>
+      </div>
+      <!-- location , link and joining date -->
+      <div class="row">
+        <div class="user-data d-flex flex-wrap">
+          <p class="me-4 text-muted">
+            <i class="fa-solid fa-location-dot"></i> {{ user.location }}
+          </p>
+          <p class="me-4" *ngIf="user.website">
+            <i class="fa-solid fa-link me-1 text-muted"></i>
+            <a
+              [href]="user.website"
+              target="_blank"
+              class="text-decoration-none"
+              >{{ user.website }}</a
+            >
+          </p>
+          <p class="text-muted">
+            <i class="fa-solid fa-calendar-days"></i> {{ user.accountCreation }}
+          </p>
+        </div>
+      </div>
+      <!-- followers and following -->
+      <div class="row">
+        <div class="following-followers d-flex">
+          <p class="text-muted me-3">
+            <span class="fw-bold text-dark me-1">{{
+              user.following.length
+            }}</span
+            >Following
+          </p>
+          <p class="text-muted">
+            <span class="fw-bold text-dark me-1">
+              {{ user.following.length }} </span
+            >Followers
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <nav class="nav nav-justified p-0 border-bottom">
+          <a class="nav-link" aria-current="page" href="#">Tweets</a>
+          <a class="nav-link active" href="#">Tweets and replies</a>
+          <a class="nav-link" href="#">Media</a>
+          <a class="nav-link" href="#">Likes</a>
+        </nav>
+      </div>
+    </div>
+    <app-list-tweets></app-list-tweets>
+  </div>
+</div>

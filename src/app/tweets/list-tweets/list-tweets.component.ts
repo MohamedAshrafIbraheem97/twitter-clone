@@ -9,7 +9,7 @@ import { TweetService } from '../tweet.service';
   styleUrls: ['./list-tweets.component.sass'],
 })
 export class ListTweetsComponent implements OnInit, OnDestroy {
-  tweets: Tweet[] = [];
+  tweets: Tweet[];
   subscription: Subscription;
 
   constructor(private tweetService: TweetService) {}

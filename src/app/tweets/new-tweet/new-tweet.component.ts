@@ -1,6 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/profile/models/User.model';
+import { UserService } from 'src/app/profile/services/user.service';
 
 import { Tweet } from '../models/tweet.model';
 
@@ -11,26 +12,23 @@ import { TweetService } from '../tweet.service';
   templateUrl: './new-tweet.component.html',
   styleUrls: ['./new-tweet.component.sass'],
 })
-export class NewTweetComponent {
+export class NewTweetComponent implements OnInit {
   @ViewChild('newTweetTextarea') textarea: ElementRef;
   defaultProgress: number = 140;
   currentProgress: number = this.defaultProgress;
 
-  user = new User(
-    'imMohamedAshraf',
-    'mido',
-    '',
-    new Date(1997, 2, 12),
-    'Egypt',
-    new Date(2020, 2, 12),
-    'my description'
-  );
-
+  currentUser: User;
   // form builder is a new way of grouping reactive forms data which was form group
   constructor(
     private formBuilder: FormBuilder,
-    private tweetService: TweetService
-  ) {}
+    private tweetService: TweetService,
+    private userservice: UserService
+  ) {
+    // this.user = userservice.getUser('midooo');
+  }
+  ngOnInit(): void {
+    this.currentUser = this.userservice.currentUser;
+  }
 
   tweetForm = this.formBuilder.group({
     tweet: new FormControl('', [
@@ -43,8 +41,8 @@ export class NewTweetComponent {
     let tweet = new Tweet(
       this.tweetForm.value['tweet']!,
       new Date(),
-      this.user,
-      0
+      0,
+      this.currentUser
     );
     this.tweetService.createTweet(tweet);
   }

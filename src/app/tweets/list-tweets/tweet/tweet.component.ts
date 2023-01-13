@@ -18,10 +18,7 @@ export class TweetComponent implements OnInit {
   MonthNames: string[] = ['Jan','Feb','Mar','Apr','May','Jun',
                           'Jul','Aug','Sep','Oct','Nov','Dec',];
 
-  ngOnInit(): void {
-    // console.log(date.getHours());
-    // console.log(new Date().getMinutes() - date.getMinutes());
-  }
+  ngOnInit(): void {}
 
   handlingDate() {
     let tweetDate = this.tweet.creationDate;

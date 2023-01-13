@@ -74,7 +74,7 @@
         >
           <a
             class="nav-link fs-4 d-flex align-items-center"
-            routerLink="profile"
+            [routerLink]="['/profile', currentUser.username]"
             routerLinkActive="active"
             ><i class="fa-regular fa-user me-lg-2"></i>
             <span
@@ -104,6 +104,7 @@
             </div> -->
             <div class="me-lg-2">
               <app-profile-image
+                [user]="currentUser"
                 [widthAndHeight]="'smallWidth'"
               ></app-profile-image>
             </div>

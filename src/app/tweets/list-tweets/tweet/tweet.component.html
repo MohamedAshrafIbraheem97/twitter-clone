@@ -1,40 +1,47 @@
-<div class="container">
-  <div class="row gx-2">
-    <div class="col-1">
-      <app-profile-image></app-profile-image>
-    </div>
-    <div class="col-11">
-      <!-- profile details section -->
-      <div class="row">
-        <div class="col-12">
-          <a href="" class="text-black profile-link fw-bold fs-6">{{
-            tweet.creator.name
-          }}</a>
-          <p class="d-inline ms-1 smallerFont text-secondary">
-            @{{ tweet.creator.username }}
-          </p>
-          <p class="d-inline mx-1 smallerFont text-secondary">.</p>
-          <a href="" class="text-secondary smallerFont profile-link">
-            {{ handlingDate() }}
-          </a>
-        </div>
+<a class="cancel-link-decorations">
+  <div class="container py-3">
+    <div class="row gx-2">
+      <div class="col-2 col-lg-1">
+        <app-profile-image
+          [user]="tweet.creator"
+          [widthAndHeight]="'largerWidth'"
+        ></app-profile-image>
       </div>
-      <!-- tweet content section -->
-      <div class="row">
-        <div class="col-12">
-          <p>
-            {{ tweet.content }}
-          </p>
+      <div class="col-10 col-lg-11">
+        <!-- profile details section -->
+        <div class="row">
+          <div class="col-12">
+            <a
+              [routerLink]="['/profile', tweet.creator.username]"
+              class="text-black profile-link fw-bold fs-6"
+              >{{ tweet.creator.name }}</a
+            >
+            <p class="d-inline ms-1 smallerFont text-secondary">
+              @{{ tweet.creator.username }}
+            </p>
+            <p class="d-inline mx-1 smallerFont text-secondary">.</p>
+            <a href="" class="text-secondary smallerFont profile-link">
+              {{ handlingDate() }}
+            </a>
+          </div>
         </div>
-      </div>
-      <!-- tweet actions section -->
-      <div class="row">
-        <div class="col-12 d-flex flex-row-reverse justify-content-around">
-          <app-icon [iconName]="likeIcon"></app-icon>
-          <app-icon [iconName]="replyIcon"></app-icon>
-          <app-icon [iconName]="retweetIcon"></app-icon>
+        <!-- tweet content section -->
+        <div class="row">
+          <div class="col-12">
+            <p>
+              {{ tweet.content }}
+            </p>
+          </div>
+        </div>
+        <!-- tweet actions section -->
+        <div class="row">
+          <div class="col-12 d-flex flex-row-reverse justify-content-around">
+            <app-icon [iconName]="likeIcon"></app-icon>
+            <app-icon [iconName]="replyIcon"></app-icon>
+            <app-icon [iconName]="retweetIcon"></app-icon>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</a>
