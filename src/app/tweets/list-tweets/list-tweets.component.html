@@ -1,3 +1,11 @@
-<div *ngFor="let tweet of tweets">
-  <app-tweet [tweetData]="tweet"></app-tweet>
+<div *ngIf="tweets; else noTweetsFound">
+  <div *ngFor="let tweet of tweets">
+    <app-tweet [tweetData]="tweet"></app-tweet>
+  </div>
 </div>
+
+<ng-template #noTweetsFound>
+  <div>
+    <h5>No Tweets found</h5>
+  </div>
+</ng-template>

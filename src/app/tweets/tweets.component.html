@@ -1,3 +1,5 @@
 <app-new-tweet></app-new-tweet>
 <hr />
-<app-list-tweets></app-list-tweets>
+<app-list-tweets
+  [wantedTweetsType]="[tweetTypes.mineAndMyFollowingTweets, loggedInUser]"
+></app-list-tweets>

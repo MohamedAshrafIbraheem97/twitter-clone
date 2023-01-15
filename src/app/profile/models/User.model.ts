@@ -1,3 +1,5 @@
+import { Tweet } from 'src/app/tweets/models/tweet.model';
+
 export class User {
   constructor(
     public username: string,
@@ -8,8 +10,9 @@ export class User {
     public location: string,
     public accountCreation: Date,
     public description: string,
-    public followers: User[],
-    public following: User[],
+    public followers: User[], // "Followers" are the users who follow you.
+    public following: User[], // “Following” is the users who you follow.
+    public tweets: Tweet[],
     public website?: string
   ) {}
 }
