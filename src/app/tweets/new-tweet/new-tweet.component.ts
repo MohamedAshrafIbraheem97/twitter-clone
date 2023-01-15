@@ -16,18 +16,17 @@ export class NewTweetComponent implements OnInit {
   @ViewChild('newTweetTextarea') textarea: ElementRef;
   defaultProgress: number = 140;
   currentProgress: number = this.defaultProgress;
+  loggedInUser: User;
 
-  currentUser: User;
   // form builder is a new way of grouping reactive forms data which was form group
   constructor(
     private formBuilder: FormBuilder,
     private tweetService: TweetService,
     private userservice: UserService
-  ) {
-    // this.user = userservice.getUser('midooo');
-  }
+  ) {}
+
   ngOnInit(): void {
-    this.currentUser = this.userservice.currentUser;
+    this.loggedInUser = this.userservice.currentUser;
   }
 
   tweetForm = this.formBuilder.group({
@@ -42,14 +41,21 @@ export class NewTweetComponent implements OnInit {
       this.tweetForm.value['tweet']!,
       new Date(),
       0,
-      this.currentUser
+      this.loggedInUser
     );
-    this.tweetService.createTweet(tweet);
+
+    this.tweetService.createTweet(tweet, this.loggedInUser);
+
+    this.resetForm();
   }
 
   inputChanged() {
     this.calculateProgress();
     this.increaseTextAreaHeight();
+  }
+
+  private resetForm() {
+    this.tweetForm.reset();
   }
 
   private calculateProgress() {

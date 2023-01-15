@@ -24,6 +24,7 @@ export class UserService {
       'this is description',
       [],
       [],
+      [],
       'https://www.youtube.com/watch?v=NoAqRpHSNM8'
     );
 
@@ -37,6 +38,7 @@ export class UserService {
       new Date(),
       'this is description',
       [],
+      [],
       []
     );
 
@@ -48,8 +50,7 @@ export class UserService {
 
   getUser(username: string): User | undefined {
     if (this.isUserNameFound(username)) {
-      this.currentUser = this.users.get(username)!;
-      return this.currentUser;
+      return this.users.get(username)!;
     }
     return undefined;
   }
@@ -62,5 +63,42 @@ export class UserService {
     if (!this.isUserNameFound(user.username)) {
       this.users.set(user.username, user);
     }
+  }
+
+  followUser(userWantToFollow: User, userToBeFollowed: User) {
+    if (this.findUserInFollowing(userWantToFollow, userToBeFollowed) === -1) {
+      userWantToFollow.following.push(userToBeFollowed);
+      userToBeFollowed.followers.push(userWantToFollow);
+    }
+  }
+
+  unFollowUser(userWantToUnfollow: User, userToBeUnfollowed: User) {
+    if (
+      this.findUserInFollowing(userWantToUnfollow, userToBeUnfollowed) !== -1
+    ) {
+      let indexOfUnfollowingUser = this.findUserInFollowing(
+        userWantToUnfollow,
+        userToBeUnfollowed
+      );
+      userWantToUnfollow.following.splice(indexOfUnfollowingUser, 1);
+
+      let indexOfUnfollowedUser = this.findUserInFollowers(
+        userToBeUnfollowed,
+        userWantToUnfollow
+      );
+      userToBeUnfollowed.followers.splice(indexOfUnfollowedUser, 1);
+    }
+  }
+
+  /**
+   * to Check is user followed or not
+   * @returns user index if foun || -1 if user not found
+   */
+  findUserInFollowers(userWhoWantToKnow: User, userToBeSearchedFor: User) {
+    return userWhoWantToKnow.followers.indexOf(userToBeSearchedFor);
+  }
+
+  findUserInFollowing(userWhoWantToKnow: User, userToBeSearchedFor: User) {
+    return userWhoWantToKnow.following.indexOf(userToBeSearchedFor);
   }
 }

@@ -4,7 +4,7 @@
     <div class="image-container position-relative bg-info">
       <a href="">
         <img
-          [src]="user.headerImage"
+          [src]="anonymousUser.headerImage"
           alt="profile background"
           class="background-image"
       /></a>
@@ -14,7 +14,7 @@
         >
           <div class="image">
             <a href="">
-              <img src="{{ user.profileImage }}" alt="" class="w-100"
+              <img src="{{ anonymousUser.profileImage }}" alt="" class="w-100"
             /></a>
           </div>
         </div>
@@ -27,51 +27,91 @@
       <div class="row justify-content-end">
         <div class="col-12 d-flex justify-content-end">
           <button
+            *ngIf="loggedInUser === anonymousUser"
             class="btn btn-outline-secondary rounded-pill fw-bold text-black"
           >
             Edit Profile
+          </button>
+          <button
+            *ngIf="loggedInUser !== anonymousUser"
+            class="btn rounded-pill fw-bold"
+            [ngClass]="
+              followBtnContent == followStatesInTemplate.unfollow ||
+              followBtnContent == followStatesInTemplate.following
+                ? 'btn-outline-secondary unfollow'
+                : 'btn-dark'
+            "
+            (click)="followAndUnfollowUser()"
+            (mouseover)="onMouseOver()"
+            (mouseenter)="onMouseOver()"
+            (mouseleave)="onMouseLeave()"
+          >
+            {{ followBtnContent }}
           </button>
         </div>
       </div>
       <!-- name and user name -->
       <div class="row">
         <div class="col-12">
-          <h4 class="fw-bold">{{ user.name }}</h4>
-          <p class="text-muted">@{{ user.username }}</p>
+          <h4 class="fw-bold">{{ anonymousUser.name }}</h4>
+          <p class="text-muted">@{{ anonymousUser.username }}</p>
         </div>
       </div>
       <!-- location , link and joining date -->
       <div class="row">
         <div class="user-data d-flex flex-wrap">
           <p class="me-4 text-muted">
-            <i class="fa-solid fa-location-dot"></i> {{ user.location }}
+            <i class="fa-solid fa-location-dot"></i>
+            {{ anonymousUser.location }}
           </p>
-          <p class="me-4" *ngIf="user.website">
+          <p class="me-4" *ngIf="anonymousUser.website">
             <i class="fa-solid fa-link me-1 text-muted"></i>
             <a
-              [href]="user.website"
+              [href]="anonymousUser.website"
               target="_blank"
               class="text-decoration-none"
-              >{{ user.website }}</a
+              >{{ anonymousUser.website }}</a
             >
           </p>
           <p class="text-muted">
-            <i class="fa-solid fa-calendar-days"></i> {{ user.accountCreation }}
+            <i class="fa-solid fa-calendar-days"></i>
+            {{ anonymousUser.accountCreation }}
           </p>
         </div>
       </div>
       <!-- followers and following -->
       <div class="row">
-        <div class="following-followers d-flex">
+        <!-- viewing another person profile -->
+        <div
+          class="following-followers d-flex"
+          *ngIf="loggedInUser !== anonymousUser"
+        >
           <p class="text-muted me-3">
             <span class="fw-bold text-dark me-1">{{
-              user.following.length
+              anonymousUser.following.length
             }}</span
             >Following
           </p>
           <p class="text-muted">
             <span class="fw-bold text-dark me-1">
-              {{ user.following.length }} </span
+              {{ anonymousUser.followers.length }} </span
+            >Followers
+          </p>
+        </div>
+        <!-- viewing my profile -->
+        <div
+          class="following-followers d-flex"
+          *ngIf="loggedInUser === anonymousUser"
+        >
+          <p class="text-muted me-3">
+            <span class="fw-bold text-dark me-1">{{
+              loggedInUser.following.length
+            }}</span
+            >Following
+          </p>
+          <p class="text-muted">
+            <span class="fw-bold text-dark me-1">
+              {{ loggedInUser.followers.length }} </span
             >Followers
           </p>
         </div>
@@ -85,6 +125,16 @@
         </nav>
       </div>
     </div>
-    <app-list-tweets></app-list-tweets>
+    <!-- to retreive my tweets -->
+    <app-list-tweets
+      *ngIf="loggedInUser === anonymousUser"
+      [wantedTweetsType]="[tweetTypes.myTweets, loggedInUser]"
+    ></app-list-tweets>
+
+    <!-- to retreive tweets for another user -->
+    <app-list-tweets
+      *ngIf="loggedInUser !== anonymousUser"
+      [wantedTweetsType]="[tweetTypes.anotherUserTweets, anonymousUser]"
+    ></app-list-tweets>
   </div>
 </div>

@@ -10,86 +10,110 @@ import { UserService } from '../profile/services/user.service';
 })
 export class TweetService {
   tweetListChanged = new Subject<Tweet[]>();
+  feedTweetsChanged = new Subject<Tweet[]>();
   currentUser: User;
-  user: User;
-  tweets: Tweet[];
+  anonymousUser: User;
+  feedTweets: Tweet[] = [];
 
   constructor(private userService: UserService) {
     this.currentUser = this.userService.currentUser;
-    this.user = this.userService.getUser('midooo')!;
-
-    this.tweets = [
+    this.anonymousUser = this.userService.getUser('midooo')!;
+    this.anonymousUser.tweets = [
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
       {
         content: 'hello',
         creationDate: new Date(2022, 0, 10, 2, 1),
-        creator: this.user,
+        creator: this.anonymousUser,
         retweet: 0,
       },
     ];
   }
 
-  // user = this.userService.getUser('midooo')!;
-
-  createTweet(tweet: Tweet) {
-    this.tweets.unshift(tweet);
-    this.tweetListChanged.next(this.tweets);
+  createTweet(tweet: Tweet, creator: User) {
+    // let tweetCreator = this.userService.getUser(creator.username);
+    creator.tweets.unshift(tweet);
+    this.feedTweets.unshift(tweet);
+    this.feedTweetsChanged.next(this.feedTweets);
   }
 
-  getTweets() {
-    return this.tweets;
+  getTweets(): Tweet[] {
+    return this.feedTweets;
+  }
+
+  getUserTweets(creator: User): Tweet[] {
+    return creator.tweets;
+  }
+
+  getMyTweetsAndMyFollowingTweets(user: User): Tweet[] {
+    let myTweetsAndMyFollowingTweets: Tweet[] = [];
+
+    for (const followingUser of user.following) {
+      myTweetsAndMyFollowingTweets = followingUser.tweets;
+    }
+
+    myTweetsAndMyFollowingTweets = myTweetsAndMyFollowingTweets.concat(
+      user.tweets
+    );
+
+    myTweetsAndMyFollowingTweets.sort((firstDate: any, secondDate: any) => {
+      return secondDate.creationDate - firstDate.creationDate;
+    });
+    this.feedTweets = myTweetsAndMyFollowingTweets;
+    this.feedTweetsChanged.next(this.feedTweets);
+
+    return myTweetsAndMyFollowingTweets;
   }
 }
