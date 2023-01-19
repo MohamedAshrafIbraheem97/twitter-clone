@@ -22,8 +22,7 @@ export class UserService {
       'Egypt',
       new Date(),
       'this is description',
-      [],
-      [],
+      ['khan'],
       [],
       'https://www.youtube.com/watch?v=NoAqRpHSNM8'
     );
@@ -38,8 +37,7 @@ export class UserService {
       new Date(),
       'this is description',
       [],
-      [],
-      []
+      ['midooo']
     );
 
     this.users.set(ahmedUser.username, ahmedUser);
@@ -50,7 +48,7 @@ export class UserService {
 
   getUser(username: string): User | undefined {
     if (this.isUserNameFound(username)) {
-      return this.users.get(username)!;
+      return this.users.get(username);
     }
     return undefined;
   }
@@ -67,8 +65,8 @@ export class UserService {
 
   followUser(userWantToFollow: User, userToBeFollowed: User) {
     if (this.findUserInFollowing(userWantToFollow, userToBeFollowed) === -1) {
-      userWantToFollow.following.push(userToBeFollowed);
-      userToBeFollowed.followers.push(userWantToFollow);
+      userWantToFollow.following.push(userToBeFollowed.username);
+      userToBeFollowed.followers.push(userWantToFollow.username);
     }
   }
 
@@ -95,10 +93,10 @@ export class UserService {
    * @returns user index if foun || -1 if user not found
    */
   findUserInFollowers(userWhoWantToKnow: User, userToBeSearchedFor: User) {
-    return userWhoWantToKnow.followers.indexOf(userToBeSearchedFor);
+    return userWhoWantToKnow.followers.indexOf(userToBeSearchedFor.username);
   }
 
   findUserInFollowing(userWhoWantToKnow: User, userToBeSearchedFor: User) {
-    return userWhoWantToKnow.following.indexOf(userToBeSearchedFor);
+    return userWhoWantToKnow.following.indexOf(userToBeSearchedFor.username);
   }
 }

@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/profile/models/User.model';
+import { UserService } from 'src/app/profile/services/user.service';
 import { IconName } from 'src/app/shared-components/icon/IconName';
 import { Tweet } from '../../models/tweet.model';
 
@@ -9,6 +11,7 @@ import { Tweet } from '../../models/tweet.model';
 })
 export class TweetComponent implements OnInit {
   @Input('tweetData') tweet: Tweet;
+  user: User;
 
   likeIcon: IconName = IconName.LIKE;
   replyIcon: IconName = IconName.REPLY;
@@ -18,7 +21,15 @@ export class TweetComponent implements OnInit {
   MonthNames: string[] = ['Jan','Feb','Mar','Apr','May','Jun',
                           'Jul','Aug','Sep','Oct','Nov','Dec',];
 
-  ngOnInit(): void {}
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.getUser();
+  }
+
+  getUser() {
+    this.user = this.userService.getUser(this.tweet.creator)!;
+  }
 
   handlingDate() {
     let tweetDate = this.tweet.creationDate;

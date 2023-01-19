@@ -38,10 +38,11 @@ export class NewTweetComponent implements OnInit {
 
   onTweetCreation() {
     let tweet = new Tweet(
+      '1',
       this.tweetForm.value['tweet']!,
       new Date(),
-      0,
-      this.loggedInUser
+      [],
+      this.loggedInUser.username
     );
 
     this.tweetService.createTweet(tweet, this.loggedInUser);

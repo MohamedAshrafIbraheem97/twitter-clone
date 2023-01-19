@@ -30,7 +30,7 @@ export class ListTweetsComponent implements OnInit, OnDestroy {
 
     this.getTweetsBasedOnType();
 
-    this.subscription = this.tweetService.feedTweetsChanged.subscribe(
+    this.subscription = this.tweetService.tweetListChanged.subscribe(
       (_tweets) => {
         this.tweets = _tweets;
       }
@@ -43,7 +43,9 @@ export class ListTweetsComponent implements OnInit, OnDestroy {
         this.wantedTweetsType[1]
       );
     } else {
-      this.tweets = this.tweetService.getUserTweets(this.wantedTweetsType[1]);
+      this.tweets = this.tweetService.getUserTweets(
+        this.wantedTweetsType[1].username
+      );
     }
   }
 

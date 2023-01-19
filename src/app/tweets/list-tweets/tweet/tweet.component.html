@@ -3,7 +3,7 @@
     <div class="row gx-2">
       <div class="col-2 col-lg-1">
         <app-profile-image
-          [user]="tweet.creator"
+          [user]="user"
           [widthAndHeight]="'largerWidth'"
         ></app-profile-image>
       </div>
@@ -12,12 +12,13 @@
         <div class="row">
           <div class="col-12">
             <a
-              [routerLink]="['/profile', tweet.creator.username]"
+              [routerLink]="['/profile', tweet.creator]"
               class="text-black profile-link fw-bold fs-6"
-              >{{ tweet.creator.name }}</a
             >
+              {{ user.name }}
+            </a>
             <p class="d-inline ms-1 smallerFont text-secondary">
-              @{{ tweet.creator.username }}
+              @{{ tweet.creator }}
             </p>
             <p class="d-inline mx-1 smallerFont text-secondary">.</p>
             <a href="" class="text-secondary smallerFont profile-link">

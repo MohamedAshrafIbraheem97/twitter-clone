@@ -10,9 +10,8 @@ export class User {
     public location: string,
     public accountCreation: Date,
     public description: string,
-    public followers: User[], // "Followers" are the users who follow you.
-    public following: User[], // “Following” is the users who you follow.
-    public tweets: Tweet[],
+    public followers: string[], // "Followers" are the users who follow you. >>> this string is username
+    public following: string[], // “Following” is the users who you follow. >>> this string is username
     public website?: string
   ) {}
 }
