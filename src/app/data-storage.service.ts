@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Tweet } from './tweets/models/tweet.model';
+import { TweetService } from './tweets/tweet.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,39 +12,46 @@ import { Tweet } from './tweets/models/tweet.model';
 export class DataStorageService {
   BASE_URL = 'https://ng-twitter-clone-6d5eb-default-rtdb.firebaseio.com/';
 
-  constructor(private http: HttpClient) {}
+  loadedTweetsChanged = new Subject<Tweet[]>();
+  loadedTweets: Tweet[] = [];
+  constructor(
+    private _httpClient: HttpClient,
+    private _tweetService: TweetService
+  ) {}
 
-  getTweets(): Tweet[] {
-    let loadedTweets: Tweet[] = [];
+  // getTweets() {
+  //   this._httpClient
+  //     .get<Tweet[]>(`${this.BASE_URL}tweets.json`)
+  //     .pipe(
+  //       map((responseData) => {
+  //         let tweets: Tweet[] = [];
 
-    this.http
-      .get<Tweet[]>(`${this.BASE_URL}tweets.json`)
-      .pipe(
-        map((responseData) => {
-          let tweets: Tweet[] = [];
+  //         for (const key in responseData) {
+  //           tweets.push({
+  //             ...responseData[key],
+  //             _tweetId: key,
+  //             creationDate: new Date(responseData[key].creationDate),
+  //             retweet: responseData[key].retweet
+  //               ? responseData[key].retweet
+  //               : [],
+  //           });
+  //         }
 
-          for (const key in responseData) {
-            tweets.push({ ...responseData[key], _tweetId: key });
-          }
-          return tweets;
-        })
-      )
-      .subscribe((responseData) => {
-        loadedTweets = responseData;
-        console.log(loadedTweets);
-      });
-    // console.log(loadedTweets);
+  //         return tweets;
+  //       })
+  //     )
+  //     .subscribe((responseData) => {
+  //       // this._tweetService.setTweets(responseData);
+  //       this._tweetService.allTweets = responseData;
+  //     });
+  // }
 
-    return loadedTweets;
-  }
-
-  createTweet(tweet: Tweet) {
-    console.log(tweet);
-
-    this.http
-      .post(`${this.BASE_URL}tweets.json`, tweet)
-      .subscribe((responseData) => {
-        console.log(responseData);
-      });
-  }
+  // createTweet(tweet: Tweet) {
+  //   this._httpClient
+  //     .post(`${this.BASE_URL}tweets.json`, tweet)
+  //     .subscribe((responseData) => {
+  //       this._tweetService.createTweet(tweet);
+  //       console.log(responseData);
+  //     });
+  // }
 }

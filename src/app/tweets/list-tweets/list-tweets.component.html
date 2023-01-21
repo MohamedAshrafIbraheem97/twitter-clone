@@ -1,11 +1,18 @@
-<div *ngIf="tweets; else noTweetsFound">
-  <div *ngFor="let tweet of tweets">
-    <app-tweet [tweetData]="tweet"></app-tweet>
+<div class="d-flex justify-content-center" *ngIf="isLoading">
+  <div class="spinner-border m-5 text-info" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
 </div>
-
-<ng-template #noTweetsFound>
-  <div>
-    <h5>No Tweets found</h5>
+<div *ngIf="!isLoading">
+  <div *ngIf="tweets.length > 0; else noTweetsFound">
+    <div *ngFor="let tweet of tweets">
+      <app-tweet [tweetData]="tweet"></app-tweet>
+    </div>
   </div>
-</ng-template>
+
+  <ng-template #noTweetsFound>
+    <div>
+      <h5 class="text-center lead p-5">No Tweets found</h5>
+    </div>
+  </ng-template>
+</div>

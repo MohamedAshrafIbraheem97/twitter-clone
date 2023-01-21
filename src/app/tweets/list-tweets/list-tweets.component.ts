@@ -1,5 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { DataStorageService } from 'src/app/data-storage.service';
 
 import { User } from 'src/app/profile/models/User.model';
 import { UserService } from 'src/app/profile/services/user.service';
@@ -13,12 +14,13 @@ import { TweetTypes } from './tweet/tweetTypes.enum';
   templateUrl: './list-tweets.component.html',
   styleUrls: ['./list-tweets.component.sass'],
 })
-export class ListTweetsComponent implements OnInit, OnDestroy {
+export class ListTweetsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() wantedTweetsType: [TweetTypes, User];
 
-  tweets: Tweet[] | undefined;
+  tweets: Tweet[] = [];
   subscription: Subscription;
   loggedInUser: User;
+  isLoading: boolean = true;
 
   constructor(
     private tweetService: TweetService,
@@ -27,8 +29,16 @@ export class ListTweetsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loggedInUser = this.userService.currentUser;
+    this.tweetService.isLoadingState.subscribe((state) => {
+      this.isLoading = state;
+    });
 
-    this.getTweetsBasedOnType();
+    this.tweets = this.tweetService.getTweets(
+      this.wantedTweetsType[0],
+      this.wantedTweetsType[1]
+    )!;
+
+    // this.getTweetsBasedOnType();
 
     this.subscription = this.tweetService.tweetListChanged.subscribe(
       (_tweets) => {
@@ -37,16 +47,10 @@ export class ListTweetsComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getTweetsBasedOnType() {
-    if (this.wantedTweetsType[0] === TweetTypes.mineAndMyFollowingTweets) {
-      this.tweets = this.tweetService.getMyTweetsAndMyFollowingTweets(
-        this.wantedTweetsType[1]
-      );
-    } else {
-      this.tweets = this.tweetService.getUserTweets(
-        this.wantedTweetsType[1].username
-      );
-    }
+  ngOnChanges(): void {
+    this.tweetService.isLoadingState.subscribe((state) => {
+      this.isLoading = state;
+    });
   }
 
   ngOnDestroy(): void {

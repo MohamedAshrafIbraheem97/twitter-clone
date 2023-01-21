@@ -1,5 +1,18 @@
-<div class="container">
-  <div class="row gx-2">
+<div class="container border-top">
+  <div class="row">
+    <div
+      [hidden]="progress === 0"
+      class="progress p-0"
+      role="progressbar"
+      style="height: 2px"
+    >
+      <div class="progress-bar" [style.width]="progress + '%'"></div>
+    </div>
+  </div>
+  <div class="row gx-2 pt-3">
+    <!-- [hidden]="progress > 0 && progress <= 100" -->
+    <!-- <div [hidden]="progress === 0"> -->
+    <!-- </div> -->
     <div class="col-2 col-lg-1">
       <app-profile-image
         [user]="loggedInUser"

@@ -12,6 +12,7 @@ import { Tweet } from '../../models/tweet.model';
 export class TweetComponent implements OnInit {
   @Input('tweetData') tweet: Tweet;
   user: User;
+  tweetDate: string = '';
 
   likeIcon: IconName = IconName.LIKE;
   replyIcon: IconName = IconName.REPLY;
@@ -25,6 +26,7 @@ export class TweetComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
+    this.handlingDate();
   }
 
   getUser() {
@@ -59,6 +61,6 @@ export class TweetComponent implements OnInit {
         tweetDate.getFullYear();
     }
 
-    return datePreview;
+    this.tweetDate = datePreview;
   }
 }

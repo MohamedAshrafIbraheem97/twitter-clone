@@ -43,7 +43,7 @@ export class UserService {
     this.users.set(ahmedUser.username, ahmedUser);
     this.users.set(khan.username, khan);
 
-    this.currentUser = this.users.get('khan')!;
+    this.currentUser = this.users.get('midooo')!;
   }
 
   getUser(username: string): User | undefined {

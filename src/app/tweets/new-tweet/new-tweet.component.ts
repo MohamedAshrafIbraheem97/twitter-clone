@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { DataStorageService } from 'src/app/data-storage.service';
 import { User } from 'src/app/profile/models/User.model';
 import { UserService } from 'src/app/profile/services/user.service';
 
@@ -17,16 +18,22 @@ export class NewTweetComponent implements OnInit {
   defaultProgress: number = 140;
   currentProgress: number = this.defaultProgress;
   loggedInUser: User;
+  progress: number;
 
   // form builder is a new way of grouping reactive forms data which was form group
   constructor(
     private formBuilder: FormBuilder,
     private tweetService: TweetService,
-    private userservice: UserService
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.loggedInUser = this.userservice.currentUser;
+    this.progress = 0;
+    this.loggedInUser = this.userService.currentUser;
+    this.tweetService.uploadProgress.subscribe((data) => {
+      this.progress = data;
+      // console.log(data);
+    });
   }
 
   tweetForm = this.formBuilder.group({
@@ -38,7 +45,7 @@ export class NewTweetComponent implements OnInit {
 
   onTweetCreation() {
     let tweet = new Tweet(
-      '1',
+      '',
       this.tweetForm.value['tweet']!,
       new Date(),
       [],
