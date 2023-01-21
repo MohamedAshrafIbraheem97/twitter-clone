@@ -1,1 +1,7 @@
-<p>tweet details works!</p>
+<div *ngIf="tweet; else tweetNotFound">
+  <app-tweet [tweetData]="tweet"></app-tweet>
+</div>
+
+<ng-template #tweetNotFound>
+  <p class="m-5 text-center">{{ errorContent }}</p>
+</ng-template>

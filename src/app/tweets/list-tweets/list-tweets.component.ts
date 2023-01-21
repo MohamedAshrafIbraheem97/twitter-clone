@@ -14,7 +14,7 @@ import { TweetTypes } from './tweet/tweetTypes.enum';
   templateUrl: './list-tweets.component.html',
   styleUrls: ['./list-tweets.component.sass'],
 })
-export class ListTweetsComponent implements OnInit, OnChanges, OnDestroy {
+export class ListTweetsComponent implements OnInit, OnDestroy {
   @Input() wantedTweetsType: [TweetTypes, User];
 
   tweets: Tweet[] = [];
@@ -33,24 +33,16 @@ export class ListTweetsComponent implements OnInit, OnChanges, OnDestroy {
       this.isLoading = state;
     });
 
-    this.tweets = this.tweetService.getTweets(
+    this.tweets = this.tweetService.fetchTweets(
       this.wantedTweetsType[0],
       this.wantedTweetsType[1]
     )!;
-
-    // this.getTweetsBasedOnType();
 
     this.subscription = this.tweetService.tweetListChanged.subscribe(
       (_tweets) => {
         this.tweets = _tweets;
       }
     );
-  }
-
-  ngOnChanges(): void {
-    this.tweetService.isLoadingState.subscribe((state) => {
-      this.isLoading = state;
-    });
   }
 
   ngOnDestroy(): void {

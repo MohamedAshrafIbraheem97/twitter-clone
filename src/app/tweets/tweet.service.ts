@@ -71,7 +71,7 @@ export class TweetService {
     // ]);
   }
 
-  getTweets(tweetsType: TweetTypes, user: User): Tweet[] {
+  fetchTweets(tweetsType: TweetTypes, user: User): Tweet[] {
     this._httpClient
       .get<Tweet[]>(`${this.BASE_URL}tweets.json`)
       .pipe(
@@ -110,6 +110,23 @@ export class TweetService {
     return this.allTweets;
   }
 
+  fetchTweetById(tweetId: string) {
+    return this._httpClient
+      .get<Tweet>(`${this.BASE_URL}tweets/${tweetId}.json`)
+      .pipe(
+        map((responseData) => {
+          let tweet: Tweet = {
+            ...responseData,
+            _tweetId: tweetId,
+            creationDate: new Date(responseData.creationDate),
+            retweet: responseData.retweet ? responseData.retweet : [],
+          };
+
+          return tweet;
+        })
+      );
+  }
+
   createTweet(tweet: Tweet, creator: User) {
     let req2 = this._httpClient
       .post(`${this.BASE_URL}tweets.json`, tweet, {
@@ -117,38 +134,18 @@ export class TweetService {
         observe: 'events',
       })
       .subscribe((event) => {
+        // tracking progress
         if (event.type === HttpEventType.UploadProgress) {
           let percentDone = Math.round((100 * event.loaded) / event.total!);
           this.uploadProgress.next(percentDone);
-        } else if (event.type === HttpEventType.Response) {
+        }
+        // the load is done so continue my work
+        else if (event.type === HttpEventType.Response) {
           this.allTweets.unshift(tweet);
           this.tweetListChanged.next(this.allTweets);
           this.uploadProgress.next(0);
         }
       });
-
-    // console.log(req2);
-
-    // const req = new HttpRequest('POST', `${this.BASE_URL}tweets.json`, tweet, {
-    //   reportProgress: true,
-    // });
-
-    // console.log(req);
-
-    // this._httpClient.request(req).subscribe((event) => {
-    //   // Via this API, you get access to the raw event stream.
-    //   // Look for upload progress events.
-    //   if (event.type === HttpEventType.UploadProgress) {
-    //     // This is an upload progress event. Compute and show the % done:
-
-    //     const percentDone = Math.round((100 * event.loaded) / event.total!);
-    //     // console.log(`File is ${percentDone}% uploaded.`);
-    //   } else if (event instanceof HttpResponse) {
-    //     // console.log('tweet is completely uploaded!');
-    //     this.allTweets.unshift(tweet);
-    //     this.tweetListChanged.next(this.allTweets);
-    //   }
-    // });
   }
 
   getTweetsBasedOnType(

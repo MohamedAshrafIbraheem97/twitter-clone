@@ -18,6 +18,7 @@ import { TweetDetailsComponent } from './tweets/list-tweets/tweet-details/tweet-
 import { TweetComponent } from './tweets/list-tweets/tweet/tweet.component';
 import { IconComponent } from './shared-components/icon/icon.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ErrorHandlingComponent } from './shared-components/error-handling/error-handling.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     TweetComponent,
     IconComponent,
     NotFoundComponent,
+    ErrorHandlingComponent,
   ],
   imports: [
     BrowserModule,

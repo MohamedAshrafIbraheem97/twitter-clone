@@ -45,7 +45,7 @@ export class TweetComponent implements OnInit {
             datePreview =
               currentDate.getMinutes() - tweetDate.getMinutes() + 'm';
           } else {
-            datePreview = currentDate.getHours() - tweetDate.getHours() + 'H';
+            datePreview = currentDate.getHours() - tweetDate.getHours() + 'h';
           }
         } else {
           datePreview =

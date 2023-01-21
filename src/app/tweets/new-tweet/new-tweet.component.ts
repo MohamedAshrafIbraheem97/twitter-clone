@@ -18,7 +18,7 @@ export class NewTweetComponent implements OnInit {
   defaultProgress: number = 140;
   currentProgress: number = this.defaultProgress;
   loggedInUser: User;
-  progress: number;
+  createTweetProgress: number;
 
   // form builder is a new way of grouping reactive forms data which was form group
   constructor(
@@ -28,11 +28,10 @@ export class NewTweetComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.progress = 0;
+    this.createTweetProgress = 0;
     this.loggedInUser = this.userService.currentUser;
     this.tweetService.uploadProgress.subscribe((data) => {
-      this.progress = data;
-      // console.log(data);
+      this.createTweetProgress = data;
     });
   }
 
