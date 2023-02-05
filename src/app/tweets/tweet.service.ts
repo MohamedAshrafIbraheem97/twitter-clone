@@ -12,6 +12,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { TweetTypes } from 'src/app/shared/constants';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,6 @@ export class TweetService {
   anonymousUser: UserProfile;
   allTweets: Tweet[] = [];
   currentTweets: Tweet[] = [];
-  BASE_URL = 'https://ng-twitter-clone-6d5eb-default-rtdb.firebaseio.com/';
   uploadProgress = new Subject<number>();
 
   constructor(
@@ -74,7 +74,7 @@ export class TweetService {
 
   fetchTweetsByType(tweetsType: TweetTypes, user: UserProfile): Tweet[] {
     this._httpClient
-      .get<Tweet[]>(`${this.BASE_URL}tweets.json`)
+      .get<Tweet[]>(`${environment.BASE_URL}tweets.json`)
       .pipe(
         map((responseData) => {
           this.loadingState = true;
@@ -116,7 +116,7 @@ export class TweetService {
 
   fetchTweetById(tweetId: string) {
     return this._httpClient
-      .get<Tweet>(`${this.BASE_URL}tweets/${tweetId}.json`)
+      .get<Tweet>(`${environment.BASE_URL}tweets/${tweetId}.json`)
       .pipe(
         map((responseData) => {
           let tweet: Tweet = new Tweet(
@@ -136,7 +136,7 @@ export class TweetService {
 
   createTweet(tweet: Tweet, creator: UserProfile) {
     return this._httpClient
-      .post(`${this.BASE_URL}tweets.json`, tweet, {
+      .post(`${environment.BASE_URL}tweets.json`, tweet, {
         reportProgress: true,
         observe: 'events',
       })

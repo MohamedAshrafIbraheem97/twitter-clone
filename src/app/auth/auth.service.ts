@@ -7,7 +7,8 @@ import {
   AuthResponse,
 } from '../profile/models/User.model';
 
-const KEY = 'AIzaSyAcVJOA_l_Bmg-y5PccEFcnGsl65RNULic';
+import { environment } from 'src/environments/environment.development';
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   constructor(private _http: HttpClient) {}
@@ -15,7 +16,7 @@ export class AuthService {
   isEmailUsed(email: string) {
     return this._http
       .post<{ allProviders: string[]; registered: boolean }>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:createAuthUri?key=${KEY}`,
+        `https://identitytoolkit.googleapis.com/v1/accounts:createAuthUri?key=${environment.firebaseApiKey}`,
         {
           identifier: email,
           continueUri: 'http://localhost:4200/home',
@@ -27,7 +28,7 @@ export class AuthService {
   createAccount(userAccount: UserAccount): Observable<AuthResponse> {
     return this._http
       .post<AuthResponse>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${KEY}`,
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseApiKey}`,
         {
           email: userAccount.email,
           password: userAccount.password,
@@ -53,7 +54,7 @@ export class AuthService {
   login(userAccount: UserAccount): Observable<AuthResponse> {
     return this._http
       .post<AuthResponse>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${KEY}`,
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseApiKey}`,
         {
           email: userAccount.email,
           password: userAccount.password,
