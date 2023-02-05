@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row">
+    <hr />
+    <div class="col-12 col-3 my-2" *ngIf="isUserLoggedIn">
+      <p>Profile Settings</p>
+      <button class="btn btn-danger" (click)="onLogout()">Logout</button>
+      <hr />
+    </div>
+  </div>
+</div>

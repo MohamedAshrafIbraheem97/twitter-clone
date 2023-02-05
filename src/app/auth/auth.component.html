@@ -1,0 +1,311 @@
+<div class="vh-100 m-0 p-0 d-flex align-items-center bg-dark bg-opacity-75">
+  <div
+    class="bg-light px-4 py-3 rounded-4 container-fluid col-12 col-lg-6 vh-100"
+  >
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+      {{ error }}
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-6 align-self-start">
+            <div class="d-inline-block">
+              <div
+                (click)="onCloseAuth()"
+                class="d-flex mouse-pointer hover-effect justify-content-center align-items-center"
+              >
+                <i class="fa-solid fa-xmark fa-xl"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-6"><i class="fa-brands fa-twitter fa-xl"></i></div>
+          <div class="col-12 text-center py-4">
+            <h2>{{ isLogin ? "Sign in to twitter" : "Join Twitter today" }}</h2>
+          </div>
+        </div>
+        <div class="row w-50 m-auto">
+          <!-- login Form -->
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()" *ngIf="isLogin">
+            <div class="col-12">
+              <div class="first-screen">
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control bg-transparent"
+                    id="email"
+                    placeholder="name@example.com"
+                    formControlName="email"
+                  />
+                  <label for="email" class="">Phone, email, or username</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="password"
+                    class="form-control bg-transparent"
+                    id="password"
+                    placeholder="name@example.com"
+                    formControlName="password"
+                  />
+                  <label for="password" class="">Password</label>
+                  <!-- password validation -->
+                  <div
+                    *ngIf="
+                      loginFormData.password.invalid &&
+                      (loginFormData.password.dirty ||
+                        loginFormData.password.touched)
+                    "
+                    class="text-danger align-self-end flex-basis-1"
+                  >
+                    <div *ngIf="loginFormData.password.errors?.['required']">
+                      password is required
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-dark rounded-pill w-100">
+                    Next
+                  </button>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary rounded-pill w-100 my-4 position-relative"
+                  >
+                    Forgot password?
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    >
+                      soon
+                      <span class="visually-hidden">soon</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <!-- create Account form -->
+          <form
+            [hidden]="accountCreated"
+            [formGroup]="createAccountForm"
+            (ngSubmit)="onCreateAccount()"
+            *ngIf="!isLogin"
+          >
+            <div class="col-12">
+              <div class="first-screen">
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control bg-transparent"
+                    id="email"
+                    placeholder="name@example.com"
+                    formControlName="email"
+                  />
+                  <label for="email" class="">Email</label>
+                  <!-- email validation -->
+                  <div
+                    *ngIf="
+                      createAccountForm.controls.email.invalid &&
+                      (createAccountForm.controls.email.dirty ||
+                        createAccountForm.controls.email.touched)
+                    "
+                    class="text-danger"
+                  >
+                    <div
+                      *ngIf="createAccountForm.controls.email.errors?.['required']"
+                    >
+                      What is your email?
+                    </div>
+                    <div
+                      *ngIf="createAccountForm.controls.email.errors?.['email']"
+                    >
+                      Enter a valid email
+                    </div>
+                    <div
+                      *ngIf="createAccountForm.controls.email.errors?.['userExists']"
+                    >
+                      You can't use this email
+                    </div>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="form-floating">
+                    <input
+                      [type]="passwordHidden ? 'password' : 'text'"
+                      class="form-control bg-transparent"
+                      id="password"
+                      placeholder="name@example.com"
+                      formControlName="password"
+                    />
+
+                    <label for="password" class="">Password</label>
+                  </div>
+                  <span
+                    (click)="togglePasswordVisibilty()"
+                    class="input-group-text"
+                    id="password"
+                    [innerHTML]="
+                      passwordHidden ? showPasswordIcon : hidePasswordIcon
+                    "
+                  >
+                  </span>
+                  <!-- password validation -->
+                  <div
+                    *ngIf="
+                      createAccountForm.controls.password.invalid &&
+                      (createAccountForm.controls.password.dirty ||
+                        createAccountForm.controls.password.touched)
+                    "
+                    class="text-danger align-self-end flex-basis-1"
+                  >
+                    <div
+                      *ngIf="createAccountForm.controls.password.errors?.['required']"
+                    >
+                      password is required
+                    </div>
+                    <div
+                      *ngIf="createAccountForm.controls.password.errors?.['min-length']"
+                    >
+                      password can't be below 6 chars
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <button
+                    type="submit"
+                    class="btn btn-dark rounded-pill w-100"
+                    [disabled]="!createAccountForm.valid"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <form
+            [hidden]="!accountCreated"
+            [formGroup]="createProfileForm"
+            (ngSubmit)="onCreateProfile()"
+            *ngIf="!isLogin && accountCreated"
+          >
+            <div class="col-12">
+              <div class="second-screen">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control bg-transparent"
+                    id="name"
+                    placeholder="John Doe"
+                    formControlName="name"
+                  />
+                  <label for="name" class="">Name</label>
+                  <!-- name validation -->
+                  <div
+                    *ngIf="
+                      createProfileForm.controls.name.invalid &&
+                      (createProfileForm.controls.name.dirty ||
+                        createProfileForm.controls.name.touched)
+                    "
+                    class="text-danger"
+                  >
+                    <div
+                      *ngIf="createProfileForm.controls.name.errors?.['required']"
+                    >
+                      What is your name?
+                    </div>
+                    <div
+                      *ngIf="createProfileForm.controls.name.errors?.['maxlength']"
+                    >
+                      Name can't exceed 50 chars
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control bg-transparent"
+                    id="username"
+                    placeholder="ahmed"
+                    formControlName="username"
+                  />
+                  <label for="username" class="">Username</label>
+                  <!-- username validation -->
+                  <div
+                    *ngIf="
+                      createProfileForm.controls.username.invalid &&
+                      (createProfileForm.controls.username.dirty ||
+                        createProfileForm.controls.username.touched)
+                    "
+                    class="text-danger"
+                  >
+                    <div
+                      *ngIf="createProfileForm.controls.username.errors?.['required']"
+                    >
+                      What is your username?
+                    </div>
+                  </div>
+                </div>
+
+                <p class="fw-bold">Date of birth</p>
+
+                <div class="form-floating mb-3">
+                  <input
+                    type="date"
+                    class="form-control bg-transparent"
+                    id="date"
+                    formControlName="date"
+                  />
+                  <label for="date" class="">date</label>
+                  <!-- date validation -->
+                  <div
+                    *ngIf="
+                      createProfileForm.controls.date.invalid &&
+                      (createProfileForm.controls.date.dirty ||
+                        createProfileForm.controls.date.touched)
+                    "
+                    class="text-danger"
+                  >
+                    <div
+                      *ngIf="createProfileForm.controls.date.errors?.['required']"
+                    >
+                      What is your birthdate?
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    class="btn btn-dark rounded-pill w-100"
+                    [disabled]="!createProfileForm.valid"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row">
+            <div class="col-12">
+              <p class="text-muted">
+                {{
+                  isLogin
+                    ? "Don't have an account?"
+                    : "Already have an account?"
+                }}
+                <span
+                  class="text-primary text-decoration-none mouse-pointer"
+                  (click)="onChangeAuthType()"
+                >
+                  {{ isLogin ? "Sign up" : "Login" }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

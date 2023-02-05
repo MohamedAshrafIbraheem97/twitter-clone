@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Tweet } from '../../models/tweet.model';
 import { TweetService } from '../../tweet.service';
@@ -8,7 +8,7 @@ import { TweetService } from '../../tweet.service';
   templateUrl: './tweet-details.component.html',
   styleUrls: ['./tweet-details.component.sass'],
 })
-export class TweetDetailsComponent implements OnInit, OnChanges {
+export class TweetDetailsComponent implements OnInit {
   tweet: Tweet;
   tweetId: string;
   errorContent: string = '';
@@ -26,17 +26,12 @@ export class TweetDetailsComponent implements OnInit, OnChanges {
     this._tweetService.fetchTweetById(this.tweetId).subscribe({
       next: (tweet) => {
         this.tweet = tweet;
-        // console.log('hhhh');
       },
       error: (error) => {
         console.log(error);
 
-        this.errorContent = 'and error happened';
+        this.errorContent = 'an error happened';
       },
     });
-  }
-
-  ngOnChanges() {
-    console.log();
   }
 }

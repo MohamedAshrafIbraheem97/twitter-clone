@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User } from 'src/app/profile/models/User.model';
+import { Router } from '@angular/router';
+import { UserProfile } from 'src/app/profile/models/User.model';
 import { UserService } from 'src/app/profile/services/user.service';
 import { IconName } from 'src/app/shared-components/icon/IconName';
+import { Constants } from 'src/app/shared/constants';
 import { Tweet } from '../../models/tweet.model';
 
 @Component({
@@ -11,18 +13,14 @@ import { Tweet } from '../../models/tweet.model';
 })
 export class TweetComponent implements OnInit {
   @Input('tweetData') tweet: Tweet;
-  user: User;
+  user: UserProfile;
   tweetDate: string = '';
 
   likeIcon: IconName = IconName.LIKE;
   replyIcon: IconName = IconName.REPLY;
   retweetIcon: IconName = IconName.RETWEET;
 
-  // prettier-ignore
-  MonthNames: string[] = ['Jan','Feb','Mar','Apr','May','Jun',
-                          'Jul','Aug','Sep','Oct','Nov','Dec',];
-
-  constructor(private userService: UserService) {}
+  constructor(private _userService: UserService, private _router: Router) {}
 
   ngOnInit(): void {
     this.getUser();
@@ -30,7 +28,13 @@ export class TweetComponent implements OnInit {
   }
 
   getUser() {
-    this.user = this.userService.getUser(this.tweet.creator)!;
+    this.user = this._userService.getUserByUsername(this.tweet.creator)!;
+  }
+
+  OnTweetClick(tweet: Tweet) {
+    this._router.navigate(['/profile', tweet.creator, 'tweet', tweet._tweetId]);
+
+    // [routerLink]="['/profile', user.username, 'tweet', tweet._tweetId]"
   }
 
   handlingDate() {
@@ -49,12 +53,14 @@ export class TweetComponent implements OnInit {
           }
         } else {
           datePreview =
-            this.MonthNames[tweetDate.getMonth()] + ' ' + tweetDate.getDate();
+            Constants.MONTH_NAMES[tweetDate.getMonth()] +
+            ' ' +
+            tweetDate.getDate();
         }
       }
     } else {
       datePreview =
-        this.MonthNames[tweetDate.getMonth()] +
+        Constants.MONTH_NAMES[tweetDate.getMonth()] +
         ' ' +
         tweetDate.getDate() +
         ', ' +

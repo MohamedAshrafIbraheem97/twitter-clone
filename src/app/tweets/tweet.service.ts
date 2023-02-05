@@ -1,16 +1,17 @@
 import { Injectable, OnInit } from '@angular/core';
-import { map, Subject, tap } from 'rxjs';
+import { exhaustMap, map, Subject, take, tap } from 'rxjs';
 
-import { User } from '../profile/models/User.model';
+import { UserProfile } from '../profile/models/User.model';
 import { Tweet } from './models/tweet.model';
 import { UserService } from '../profile/services/user.service';
 import {
   HttpClient,
   HttpEventType,
+  HttpParams,
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { TweetTypes } from './list-tweets/tweet/tweetTypes.enum';
+import { TweetTypes } from 'src/app/shared/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -19,19 +20,19 @@ export class TweetService {
   tweetListChanged = new Subject<Tweet[]>();
   isLoadingState = new Subject<boolean>();
   loadingState: boolean = false;
-  currentUser: User;
-  anonymousUser: User;
+  currentUser: UserProfile;
+  anonymousUser: UserProfile;
   allTweets: Tweet[] = [];
   currentTweets: Tweet[] = [];
   BASE_URL = 'https://ng-twitter-clone-6d5eb-default-rtdb.firebaseio.com/';
   uploadProgress = new Subject<number>();
 
   constructor(
-    private userService: UserService,
+    private _userService: UserService,
     private _httpClient: HttpClient
   ) {
-    this.currentUser = this.userService.currentUser;
-    this.anonymousUser = this.userService.getUser('midooo')!;
+    this.currentUser = this._userService.loggedInUser;
+    this.anonymousUser = this._userService.getUserByUsername('midooo')!;
     // this.tweets = this.tweets.concat([
     //   {
     //     _tweetId: '1',
@@ -71,7 +72,7 @@ export class TweetService {
     // ]);
   }
 
-  fetchTweets(tweetsType: TweetTypes, user: User): Tweet[] {
+  fetchTweetsByType(tweetsType: TweetTypes, user: UserProfile): Tweet[] {
     this._httpClient
       .get<Tweet[]>(`${this.BASE_URL}tweets.json`)
       .pipe(
@@ -82,14 +83,17 @@ export class TweetService {
           let tweets: Tweet[] = [];
 
           for (const key in responseData) {
-            tweets.push({
-              ...responseData[key],
-              _tweetId: key,
-              creationDate: new Date(responseData[key].creationDate),
-              retweet: responseData[key].retweet
-                ? responseData[key].retweet
-                : [],
-            });
+            tweets.push(
+              new Tweet(
+                key,
+                responseData[key].content,
+                new Date(responseData[key].creationDate),
+                responseData[key].retweet ? responseData[key].retweet : [],
+                responseData[key].creator,
+                responseData[key].isLikedBy ? responseData[key].isLikedBy : [],
+                responseData[key].replies ? responseData[key].replies : []
+              )
+            );
           }
 
           return tweets;
@@ -115,20 +119,23 @@ export class TweetService {
       .get<Tweet>(`${this.BASE_URL}tweets/${tweetId}.json`)
       .pipe(
         map((responseData) => {
-          let tweet: Tweet = {
-            ...responseData,
-            _tweetId: tweetId,
-            creationDate: new Date(responseData.creationDate),
-            retweet: responseData.retweet ? responseData.retweet : [],
-          };
+          let tweet: Tweet = new Tweet(
+            responseData._tweetId,
+            responseData.content,
+            new Date(responseData.creationDate),
+            responseData.retweet ? responseData.retweet : [],
+            responseData.creator,
+            responseData.isLikedBy ? responseData.isLikedBy : [],
+            responseData.replies ? responseData.replies : []
+          );
 
           return tweet;
         })
       );
   }
 
-  createTweet(tweet: Tweet, creator: User) {
-    let req2 = this._httpClient
+  createTweet(tweet: Tweet, creator: UserProfile) {
+    return this._httpClient
       .post(`${this.BASE_URL}tweets.json`, tweet, {
         reportProgress: true,
         observe: 'events',
@@ -142,6 +149,10 @@ export class TweetService {
         // the load is done so continue my work
         else if (event.type === HttpEventType.Response) {
           this.allTweets.unshift(tweet);
+          this.fetchTweetsByType(
+            TweetTypes.mineAndMyFollowingTweets,
+            this._userService.loggedInUser
+          );
           this.tweetListChanged.next(this.allTweets);
           this.uploadProgress.next(0);
         }
@@ -151,7 +162,7 @@ export class TweetService {
   getTweetsBasedOnType(
     wantedTweetType: any,
     tweetsList: Tweet[],
-    user: User
+    user: UserProfile
   ): Tweet[] {
     let tweets: Tweet[] = [];
     if (wantedTweetType === TweetTypes.mineAndMyFollowingTweets) {
@@ -177,7 +188,7 @@ export class TweetService {
     return tweets;
   }
 
-  getFollowingTweets(tweetList: Tweet[], user: User): Tweet[] {
+  getFollowingTweets(tweetList: Tweet[], user: UserProfile): Tweet[] {
     let followingTweets: Tweet[] = [];
 
     if (user.following.length > 0) {
@@ -191,7 +202,10 @@ export class TweetService {
     return followingTweets;
   }
 
-  getMyTweetsAndMyFollowingTweets(tweetsList: Tweet[], user: User): Tweet[] {
+  getMyTweetsAndMyFollowingTweets(
+    tweetsList: Tweet[],
+    user: UserProfile
+  ): Tweet[] {
     let myTweetsAndMyFollowingTweets: Tweet[] = [];
 
     // get my tweets and concat it to the empty list

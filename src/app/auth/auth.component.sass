@@ -1,0 +1,35 @@
+.hover-effect
+    position: relative
+    &::before
+        content: ''
+        position: absolute        
+        border-radius: 50%
+        width: 40px
+        height: 40px
+        transition: .1s
+    &:hover
+        &::before
+            background-color: rgba(0, 0, 0,.1 )
+
+.mouse-pointer
+    cursor: pointer
+
+.vh-100
+    @media screen and (min-width: 992px) 
+        .vh-100
+            height: auto !important
+    @media screen and (max-width: 992px)
+        .vh-100
+            border-radius: 0px !important
+
+            
+   
+input.ng-invalid.ng-touched
+    border:1px solid red
+    
+.flex-basis-1 
+    flex: 1 100%
+
+button[type="button"]
+    &:hover
+        cursor: no-drop

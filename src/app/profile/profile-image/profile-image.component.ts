@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User } from '../models/User.model';
+import { UserProfile } from '../models/User.model';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -9,9 +9,9 @@ import { UserService } from '../services/user.service';
 })
 export class ProfileImageComponent implements OnInit {
   @Input() widthAndHeight: string = '';
-  @Input() user: User;
+  @Input() user: UserProfile;
 
-  constructor(private userService: UserService) {}
+  constructor() {}
 
   ngOnInit(): void {}
 }

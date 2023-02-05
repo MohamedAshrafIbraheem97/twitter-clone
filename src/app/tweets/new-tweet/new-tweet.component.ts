@@ -1,7 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { DataStorageService } from 'src/app/data-storage.service';
-import { User } from 'src/app/profile/models/User.model';
+import { Subscription } from 'rxjs';
+import { UserProfile } from 'src/app/profile/models/User.model';
 import { UserService } from 'src/app/profile/services/user.service';
 
 import { Tweet } from '../models/tweet.model';
@@ -13,26 +19,37 @@ import { TweetService } from '../tweet.service';
   templateUrl: './new-tweet.component.html',
   styleUrls: ['./new-tweet.component.sass'],
 })
-export class NewTweetComponent implements OnInit {
+export class NewTweetComponent implements OnInit, OnDestroy {
   @ViewChild('newTweetTextarea') textarea: ElementRef;
   defaultProgress: number = 140;
   currentProgress: number = this.defaultProgress;
-  loggedInUser: User;
+  loggedInUser: UserProfile;
   createTweetProgress: number;
+  userSubscription: Subscription;
 
   // form builder is a new way of grouping reactive forms data which was form group
   constructor(
     private formBuilder: FormBuilder,
-    private tweetService: TweetService,
-    private userService: UserService
+    private _tweetService: TweetService,
+    private _userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.createTweetProgress = 0;
-    this.loggedInUser = this.userService.currentUser;
-    this.tweetService.uploadProgress.subscribe((data) => {
+    this.userSubscription = this._userService.loggedInUserChanged.subscribe(
+      (loggedInuser) => {
+        if (loggedInuser) {
+          this.loggedInUser = loggedInuser;
+        }
+      }
+    );
+    this._tweetService.uploadProgress.subscribe((data) => {
       this.createTweetProgress = data;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 
   tweetForm = this.formBuilder.group({
@@ -51,7 +68,7 @@ export class NewTweetComponent implements OnInit {
       this.loggedInUser.username
     );
 
-    this.tweetService.createTweet(tweet, this.loggedInUser);
+    this._tweetService.createTweet(tweet, this.loggedInUser);
 
     this.resetForm();
   }

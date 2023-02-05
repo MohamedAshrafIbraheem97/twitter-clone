@@ -1,4 +1,4 @@
-import { User } from 'src/app/profile/models/User.model';
+import { UserProfile } from 'src/app/profile/models/User.model';
 
 export class Tweet {
   constructor(

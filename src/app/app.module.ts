@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -19,6 +19,11 @@ import { TweetComponent } from './tweets/list-tweets/tweet/tweet.component';
 import { IconComponent } from './shared-components/icon/icon.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorHandlingComponent } from './shared-components/error-handling/error-handling.component';
+import { AuthComponent } from './auth/auth.component';
+import { FooterComponent } from './footer/footer.component';
+import { ExploreComponent } from './explore/explore.component';
+import { SettingsComponent } from './settings/settings.component';
+import { AuthInterceptorService } from './auth/auth.interceptor.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +42,10 @@ import { ErrorHandlingComponent } from './shared-components/error-handling/error
     IconComponent,
     NotFoundComponent,
     ErrorHandlingComponent,
+    AuthComponent,
+    FooterComponent,
+    ExploreComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +53,13 @@ import { ErrorHandlingComponent } from './shared-components/error-handling/error
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

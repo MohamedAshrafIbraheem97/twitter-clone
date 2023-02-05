@@ -60,7 +60,7 @@
       <!-- location , link and joining date -->
       <div class="row">
         <div class="user-data d-flex flex-wrap">
-          <p class="me-4 text-muted">
+          <p class="me-4 text-muted" *ngIf="anonymousUser.location">
             <i class="fa-solid fa-location-dot"></i>
             {{ anonymousUser.location }}
           </p>
@@ -75,7 +75,7 @@
           </p>
           <p class="text-muted">
             <i class="fa-solid fa-calendar-days"></i>
-            {{ anonymousUser.accountCreation }}
+            Joined {{ JoinDatePreview() }}
           </p>
         </div>
       </div>

@@ -24,8 +24,6 @@ export class TweetResolverService implements Resolve<Tweet> {
   resolve(router: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let tweetId = router.params['tweetId'];
 
-    console.log(this._tweetService.allTweets);
-
     return this._tweetService.fetchTweetById(tweetId);
     //   .pipe(catchError((err) => this.handleError(err)));
 

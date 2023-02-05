@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../profile/models/User.model';
+import { UserProfile } from '../profile/models/User.model';
 import { UserService } from '../profile/services/user.service';
 
-import { TweetTypes } from './list-tweets/tweet/tweetTypes.enum';
+import { TweetTypes } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-tweets',
@@ -12,11 +12,11 @@ import { TweetTypes } from './list-tweets/tweet/tweetTypes.enum';
 })
 export class TweetsComponent implements OnInit {
   tweetTypes = TweetTypes;
-  loggedInUser: User;
+  loggedInUser: UserProfile;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.loggedInUser = this.userService.currentUser;
+    this.loggedInUser = this.userService.loggedInUser;
   }
 }

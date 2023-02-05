@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '../profile/models/User.model';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { UserProfile } from '../profile/models/User.model';
 import { UserService } from '../profile/services/user.service';
 
 @Component({
@@ -7,12 +8,21 @@ import { UserService } from '../profile/services/user.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.sass'],
 })
-export class NavComponent implements OnInit {
-  currentUser: User;
+export class NavComponent implements OnInit, OnDestroy {
+  loggedInUser: UserProfile;
+  userSubscription: Subscription;
 
-  constructor(private userService: UserService) {}
+  constructor(private _userService: UserService) {}
 
   ngOnInit(): void {
-    this.currentUser = this.userService.currentUser;
+    this.userSubscription = this._userService.loggedInUserChanged.subscribe(
+      (loggedInUser) => {
+        this.loggedInUser = loggedInUser;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 }

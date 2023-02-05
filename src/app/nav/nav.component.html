@@ -8,12 +8,12 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link fs-3 active" routerLink="home"
+          <a class="nav-link fs-3 active" routerLink="/"
             ><i class="fa-brands fa-twitter me-lg-2"></i>
           </a>
         </div>
       </li>
-      <li class="nav-item hover-effect">
+      <li class="nav-item hover-effect" *ngIf="loggedInUser">
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
@@ -33,7 +33,10 @@
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
-          <a class="nav-link fs-4 d-flex align-items-center" href="#"
+          <a
+            class="nav-link fs-4 d-flex align-items-center"
+            routerLink="explore"
+            routerLinkActive="active"
             ><i class="fa-solid fa-hashtag me-lg-2"></i>
             <span
               class="d-none d-sm-none d-md-none d-lg-inline-block d-xl-inline-block d-xxl-inline-block"
@@ -42,7 +45,7 @@
           >
         </div>
       </li>
-      <li class="nav-item hover-effect">
+      <li class="nav-item hover-effect" *ngIf="loggedInUser">
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
@@ -55,7 +58,7 @@
           >
         </div>
       </li>
-      <li class="nav-item hover-effect">
+      <li class="nav-item hover-effect" *ngIf="loggedInUser">
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
@@ -68,13 +71,13 @@
           >
         </div>
       </li>
-      <li class="nav-item hover-effect">
+      <li class="nav-item hover-effect" *ngIf="loggedInUser">
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
           <a
             class="nav-link fs-4 d-flex align-items-center"
-            [routerLink]="['/profile', currentUser.username]"
+            [routerLink]="['/profile', loggedInUser.username]"
             routerLinkActive="active"
             ><i class="fa-regular fa-user me-lg-2"></i>
             <span
@@ -84,7 +87,24 @@
           >
         </div>
       </li>
-      <li class="nav-item hover-effect mt-5">
+      <li class="nav-item hover-effect">
+        <div
+          class="p-2 d-flex justify-content-center align-items-center rounded-pill"
+        >
+          <a
+            class="nav-link fs-4 d-flex align-items-center"
+            [routerLink]="['/settings']"
+            routerLinkActive="active"
+          >
+            <i class="fa-solid fa-sliders me-lg-2"></i>
+            <span
+              class="d-none d-sm-none d-md-none d-lg-inline-block d-xl-inline-block d-xxl-inline-block"
+              >Settings</span
+            ></a
+          >
+        </div>
+      </li>
+      <li class="nav-item hover-effect mt-5" *ngIf="loggedInUser">
         <button class="btn btn-primary rounded-pill px-lg-5 py-lg-2">
           <i class="fa-solid fa-feather-pointed d-lg-none"></i
           ><span
@@ -94,25 +114,26 @@
         </button>
       </li>
 
-      <li class="nav-item hover-effect personProfileData mt-auto">
+      <li
+        class="nav-item hover-effect personProfileData mt-auto"
+        *ngIf="loggedInUser"
+      >
         <div
           class="p-2 d-flex justify-content-center align-items-center rounded-pill"
         >
           <a class="nav-link d-flex align-items-center" href="#">
-            <!-- <div class="rounded-circle overflow-hidden me-lg-2">
-              <img src="../../assets/myImage.png" alt="" />
-            </div> -->
             <div class="me-lg-2">
               <app-profile-image
-                [user]="currentUser"
+                [user]="loggedInUser"
                 [widthAndHeight]="'smallWidth'"
               ></app-profile-image>
             </div>
+
             <span
               class="d-none d-sm-none d-md-none d-lg-flex d-xl-flex d-xxl-flex flex-column"
             >
-              <p class="m-0 fw-bold d-inline-block">Khan is Back!</p>
-              <p class="username m-0">@imMohamedAshraf</p>
+              <p class="m-0 fw-bold d-inline-block">{{ loggedInUser.name }}</p>
+              <p class="username m-0">@{{ loggedInUser.username }}</p>
             </span>
           </a>
         </div>
