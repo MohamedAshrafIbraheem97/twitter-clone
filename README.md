@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
-## Features that you can find in this link -> **(Live Demo)[https://ng-twitter-clone-6d5eb.web.app/]**
+## Features that you can find in this link -> **[Live Demo](https://ng-twitter-clone-6d5eb.web.app/)**
 1. Create account
 2. Login with any created account
 3. Logout
