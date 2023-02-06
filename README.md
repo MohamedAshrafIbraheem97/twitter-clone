@@ -2,6 +2,32 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
+## Features that you can find in this link -> **(Live Demo)[https://ng-twitter-clone-6d5eb.web.app/]**
+1. Create account
+2. Login with any created account
+3. Logout
+4. Create Tweet
+5. List tweets
+6. view any created profile through URL only (till now)
+7. Auto logout when user session expires (session is 1 hour only)
+
+### Todo
+1. Like tweet
+2. Reply on a Tweet
+3. Quote Tweet
+4. Follow/Unfollow users
+5. Edit profile
+6. Messages
+7. Notification
+8. Create tweet from side button
+9. responsive header (which changes based on the opened page)
+10. Show each user replies to other tweets 
+11. Show each user liked tweet
+12. Show random posts at the explore 
+
+
+# How to setup the project
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
